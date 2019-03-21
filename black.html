@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>二傻子查询</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale = 1.0,user-scalable=no ">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.8/dist/vue.js"></script>
+    <!-- import stylesheet -->
+    <link rel="stylesheet" href="./iview.css">
+    <!-- import iView -->
+    <script src="./iview.min.js"></script>
+</head>
+<style>
+    .bg {
+        background: url(bg.jpg)no-repeat center;
+        background-size: cover;
+        background-attachment: fixed;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -10;
+    }
+
+    mask {
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background-color: rgba(0, 0, 0, 0.3);
+    }
+
+    .container {
+        width: 50%;
+        margin: auto;
+        padding: 10em 0 0;
+    }
+
+    .text-center {
+        text-align: center;
+    }
+
+    input {
+        width: 50vw;
+        height: 5vh;
+    }
+
+    .tip {
+        margin-top: 10px;
+        color: #d5d5d5;
+    }
+</style>
+
+<body>
+    <div id="app">
+        <div class="bg">
+            <mask></mask>
+        </div>
+        <div class="container text-center">
+            <h1>二傻子查询</h1>
+            <br>
+            <br>
+            <input type="text" placeholder="请输入需要查询的编号，回车返回查询结果" @keyup.enter="onSubmit" ref="input">
+            <div class="tip">是不是一定要说些什么啊。。。好吧。。。</div>
+            <Alert type="error" show-icon v-show='blackflag'>黑名单商户请注意！！！</Alert>
+            <Alert type="success" show-icon v-show='greenFlag'>安全商户</Alert>
+
+        </div>
+    </div>
+</body>
+
+</html>
+
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            inputVlaue: '',
+            blackflag: false,
+            greenFlag: false,
+            blackList: ['84316107832JSSV',
+                '84339105912DSJE',
+                '105000153113687',
+                '833641258140008',
+                '84358505813BMTD']
+        },
+        methods: {
+            onSubmit: function () {
+                this.blackflag = false
+                this.greenFlag = false
+                this.inputVlaue = ''
+                this.inputVlaue = this.$refs.input.value;
+                console.log('inputVlaue' + this.inputVlaue)
+                for (var i = 0; i < this.blackList.length; i++) {
+                    if (this.inputVlaue == this.blackList[i]) {
+                        this.blackflag = true
+                    }
+                }
+                if (this.blackflag == false)
+                    this.greenFlag = true;
+                else
+                    this.greenFlag = false;
+            }
+        }
+    })
+</script>
